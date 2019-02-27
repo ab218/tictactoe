@@ -1,0 +1,14 @@
+.App {
+  text-align: center;
+  margin: 1em;
+}
+
+.square {
+  background: transparent;
+  border: 1px solid black;
+  font-size: 2em;
+  height: 3em;
+  margin-right: -1px;
+  margin-top: -1px;
+  width: 3em;
+}
