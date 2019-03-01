@@ -3,6 +3,10 @@
   margin: 1em;
 }
 
+.count {
+  padding: 0 2vw;
+}
+
 .square {
   background: transparent;
   border: 1px solid black;
@@ -13,3 +17,19 @@
   width: 3em;
 }
 
+.score-board {
+  display: flex;
+  flex-direction: column;
+}
+.score-table {
+  font-size: 2em;
+  text-align: left;
+  display: flex;
+  margin: 1vh auto 4vh;
+  flex-direction: column;
+}
+
+.undo {
+  font-size: 2em;
+  margin: 2vh 0;
+}

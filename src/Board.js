@@ -1,27 +1,34 @@
 import React from 'react';
 import './App.css';
 
-const Square = (props) => {
-  if (props.value === 'X' || props.value === 'O') {
+const Square = ({ gameOver, onClick, value }) => {
+  if (value === 'X' || value === 'O') {
     return (
       <button className="square">
-        {props.value}
+        {value}
+      </button>
+    );
+  } if (gameOver === true) {
+    return (
+      <button className="square">
+          _
       </button>
     );
   }
   return (
-    <button className="square" onClick={props.onClick}>
+    <button className="square" onClick={onClick}>
       _
     </button>
   );
 };
 
-const Board = (props) => {
+const Board = ({ gameOver, onClick, squares }) => {
   function renderSquare(i) {
     return (
       <Square
-        value={props.squares.board[i]}
-        onClick={() => props.onClick(i)}
+        gameOver={gameOver}
+        value={squares.board[i]}
+        onClick={() => onClick(i)}
       />
     );
   }

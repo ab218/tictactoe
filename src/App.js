@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import './App.css';
 import Board from './Board';
+import Button from './Button';
+import ScoreBoard from './ScoreBoard';
+import { availableSpots, calculateWinner, minimax } from './gameLogic';
 
 class App extends Component {
   constructor(props) {
@@ -11,115 +14,52 @@ class App extends Component {
           board: [0, 1, 2, 3, 4, 5, 6, 7, 8],
         },
       ],
+      drawCount: 0,
       turn: 0,
       human: 'X',
       ai: 'O',
       aiWins: false,
+      aiWinCount: 0,
       playerWins: false,
+      playerWinCount: 0,
       gameDraw: false,
       gameOver: false,
       undo: false,
     };
   }
 
-  availableSpots = board => board.filter(spot => spot !== 'O' && spot !== 'X');
+  newGame = () => {
+    const { human } = this.state;
+    this.setState({
+      turn: 0,      
+      aiWins: false,
+      playerWins: false,
+      gameDraw: false,
+      gameOver: false,
+      undo: false,
+    })
+    if (human === 'X') {
 
-  minimax = (currentBoard, player, depth) => {
-    const { ai, human } = this.state;
-    const emptySpots = this.availableSpots(currentBoard);
-
-    
-    if (this.calculateWinner(currentBoard, human)) {
-      return { score: -10 };
-    }
-    if (this.calculateWinner(currentBoard, ai)) {
-      return { score: 10 };
-    }
-    if (emptySpots.length === 0) {
-      return { score: 0 };
-    }
-
-    const moves = [];
-
-    for (let i = 0; i < emptySpots.length; i++) {
-      
-      const move = {};
-      move.index = currentBoard[emptySpots[i]];
-
-      
-      currentBoard[emptySpots[i]] = player;
-
-      
-      if (player === ai) {
-        move.score = this.minimax(currentBoard, human).score;
-      } else {
-        move.score = this.minimax(currentBoard, ai).score;
-      }
-
-      
-      currentBoard[emptySpots[i]] = move.index;
-
-      
-      moves.push(move);
-    }
-
-    
-    let bestMove;
-    if (player === ai) {
-      let bestScore = -100000;
-      for (let i = 0; i < moves.length; i++) {
-        if (moves[i].score > bestScore) {
-          bestScore = moves[i].score;
-          bestMove = i;
-        }
-      }
+      this.setState({
+        human: 'O',
+        ai: 'X',
+        game: [
+          {
+            board: [0, 1, 2, 3, 4, 5, 'X', 7, 8],
+          },
+        ],
+      })
     } else {
-    
-      let bestScore = 100000;
-      for (let i = 0; i < moves.length; i++) {
-        if (moves[i].score < bestScore) {
-          bestScore = moves[i].score;
-          bestMove = i;
-        }
-      }
+      this.setState({
+        human: 'X',
+        ai: 'O',
+        game: [
+          {
+            board: [0, 1, 2, 3, 4, 5, 6, 7, 8],
+          },
+        ],
+      })
     }
-    
-    return moves[bestMove];
-  }
-
-  calculateWinner = (squares, player) => {
-    
-    for (let i = 0; i < 7; i += 3) {
-      if (squares[i] === squares[i + 1]
-        && squares[i] === squares[i + 2]
-        && squares[i] === player) {
-        return true;
-      }
-    }
-
-    
-    for (let i = 0; i < 3; i++) {
-      if (squares[i] === squares[i + 3]
-        && squares[i] === squares[i + 6]
-        && squares[i] === player) {
-        return true;
-      }
-    }
-
-    
-    if (squares[2] === squares[4]
-        && squares[2] === squares[6]
-        && squares[2] === player) {
-      return true;
-    }
-
-    
-    if (squares[0] === squares[4]
-        && squares[0] === squares[8]
-        && squares[0] === player) {
-      return true;
-    }
-    return false;
   }
 
   undoMove = () => {
@@ -146,6 +86,9 @@ class App extends Component {
       game,
       human,
       turn,
+      playerWinCount,
+      aiWinCount,
+      drawCount
     } = this.state;
     const history = game.slice(0, turn + 1);
     const current = history[history.length - 1];
@@ -160,41 +103,72 @@ class App extends Component {
       turn: turn + 1,
       undo: false,
     });
-    if (this.calculateWinner(squares, human)) {
-      return this.setState({ gameOver: true, playerWins: true });
+
+    if (calculateWinner(squares, human)) {
+      return this.setState({
+        gameOver: true,
+        playerWins: true,
+        playerWinCount: playerWinCount + 1
+      });
     }
-    squares[this.minimax(squares, ai).index] = ai;
-    if (this.calculateWinner(squares, ai)) {
-      return this.setState({ gameOver: true, aiWins: true });
+
+    squares[minimax(squares, ai, ai, human).index] = ai;
+
+    if (calculateWinner(squares, ai)) {
+      return this.setState({
+        aiWinCount: aiWinCount + 1,
+        aiWins: true,
+        gameOver: true,
+      });
     }
-    if (!this.availableSpots(squares).length) {
-      return this.setState({ gameOver: true, gameDraw: true });
+
+    if (!availableSpots(squares).length) {
+      return this.setState({
+        gameOver: true,
+        gameDraw: true,
+        drawCount: drawCount + 1
+      });
     }
-    console.log(game);
   };
 
   render() {
     const {
-      aiWins, gameDraw, gameOver, playerWins, game, turn, undo,
+      ai,
+      aiWins,
+      aiWinCount,
+      drawCount,
+      game,
+      gameDraw,
+      gameOver,
+      human,
+      playerWinCount,
+      playerWins,
+      turn,
+      undo,
     } = this.state;
     return (
       <div className="App">
+        <ScoreBoard 
+          aiWinCount={aiWinCount}
+          playerWinCount={playerWinCount}
+          drawCount={drawCount}
+          human={human}
+          ai={ai}
+        />
         <Board
           squares={game[turn]}
           onClick={i => this.handleClick(i)}
+          gameOver={gameOver}
+        />
+        <Button 
+          gameOver={gameOver}
+          newGame={this.newGame}
+          undo={undo}
+          undoMove={this.undoMove}
         />
         {aiWins && <h1>AI Wins.</h1>}
         {playerWins && <h1>Player Wins.</h1>}
-        {gameDraw && <h1>Draw</h1>}
-        {gameOver || 
-        <button
-          onClick={() => this.undoMove()}
-        >
-          {undo
-            ? 'Redo'
-            : 'Undo'}
-        </button>
-        }
+        {gameDraw && <h1>Draw.</h1>}
       </div>
     );
   }
