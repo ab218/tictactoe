@@ -31,15 +31,14 @@ class App extends Component {
   newGame = () => {
     const { human } = this.state;
     this.setState({
-      turn: 0,      
+      turn: 0,
       aiWins: false,
       playerWins: false,
       gameDraw: false,
       gameOver: false,
       undo: false,
-    })
+    });
     if (human === 'X') {
-
       this.setState({
         human: 'O',
         ai: 'X',
@@ -48,7 +47,7 @@ class App extends Component {
             board: [0, 1, 2, 3, 4, 5, 'X', 7, 8],
           },
         ],
-      })
+      });
     } else {
       this.setState({
         human: 'X',
@@ -58,7 +57,7 @@ class App extends Component {
             board: [0, 1, 2, 3, 4, 5, 6, 7, 8],
           },
         ],
-      })
+      });
     }
   }
 
@@ -75,7 +74,7 @@ class App extends Component {
           },
         ]),
         turn: turn + 1,
-        undo: undo ? false : true
+        undo: !undo,
       });
     }
   }
@@ -88,7 +87,7 @@ class App extends Component {
       turn,
       playerWinCount,
       aiWinCount,
-      drawCount
+      drawCount,
     } = this.state;
     const history = game.slice(0, turn + 1);
     const current = history[history.length - 1];
@@ -108,7 +107,7 @@ class App extends Component {
       return this.setState({
         gameOver: true,
         playerWins: true,
-        playerWinCount: playerWinCount + 1
+        playerWinCount: playerWinCount + 1,
       });
     }
 
@@ -126,10 +125,11 @@ class App extends Component {
       return this.setState({
         gameOver: true,
         gameDraw: true,
-        drawCount: drawCount + 1
+        drawCount: drawCount + 1,
       });
     }
   };
+
   render() {
     const {
       ai,
@@ -147,7 +147,7 @@ class App extends Component {
     } = this.state;
     return (
       <div className="App">
-        <ScoreBoard 
+        <ScoreBoard
           aiWinCount={aiWinCount}
           playerWinCount={playerWinCount}
           drawCount={drawCount}
@@ -155,11 +155,12 @@ class App extends Component {
           ai={ai}
         />
         <Board
+          ai={ai}
           squares={game[turn]}
           onClick={i => this.handleClick(i)}
           gameOver={gameOver}
         />
-        <Button 
+        <Button
           gameOver={gameOver}
           newGame={this.newGame}
           undo={undo}

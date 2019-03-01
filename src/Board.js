@@ -1,23 +1,27 @@
 import React from 'react';
 import './App.css';
 
-const Square = ({ gameOver, onClick, value }) => {
+const Square = ({ ai, gameOver, onClick, value }) => {
   if (value === 'X') {
     return (
       <button className="square">
-        <p className="blue">{value}</p>
+        {ai === 'X'
+        ? <p className="fade blue">{value}</p>
+        : <p className="blue">{value}</p>}
       </button>
     );
   } if (value === 'O') {
     return (
       <button className="square">
-        <p className="pink">{value}</p>
+        {ai === 'O'
+        ? <p className="fade pink">{value}</p>
+        : <p className="pink">{value}</p>}
       </button>
     );
   } if (gameOver === true) {
     return (
       <button className="square">
-          <p>_</p>
+        <p>_</p>
       </button>
     );
   }
@@ -28,10 +32,11 @@ const Square = ({ gameOver, onClick, value }) => {
   );
 };
 
-const Board = ({ gameOver, onClick, squares }) => {
+const Board = ({ ai, gameOver, onClick, squares }) => {
   function renderSquare(i) {
     return (
       <Square
+        ai={ai}
         gameOver={gameOver}
         value={squares.board[i]}
         onClick={() => onClick(i)}

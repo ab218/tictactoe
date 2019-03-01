@@ -1,20 +1,36 @@
 import React from 'react';
 import './App.css';
 
-const Button = ({ gameOver, newGame, undo, undoMove }) => {
-    return (
-      <div>
-        {gameOver
-        ? <button className='undo' onClick={() => newGame()}>New Game?</button>
-        : <button className='undo' onClick={() => undoMove()}
-          >
-        {undo
-        ? <i className="fas fa-redo"></i>
-        : <i className="fas fa-undo"></i>}
+const Button = ({
+  gameOver,
+  newGame,
+  undo,
+  undoMove,
+}) => (
+  <div>
+    {gameOver
+      ? (
+        <button
+          type="button"
+          className="undo"
+          onClick={() => newGame()}
+        >
+          New Game?
         </button>
-        }
-      </div>
-    );
-}
+      )
+      : (
+        <button
+          type="button"
+          className="undo"
+          onClick={() => undoMove()}
+        >
+          {undo
+            ? <i className="fas fa-redo" />
+            : <i className="fas fa-undo" />}
+        </button>
+      )
+    }
+  </div>
+);
 
 export default Button;
