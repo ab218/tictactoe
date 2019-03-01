@@ -1,0 +1,177 @@
+import React, { Component } from 'react';
+import './App.css';
+import Board from './Board';
+import Button from './Button';
+import ScoreBoard from './ScoreBoard';
+import { availableSpots, calculateWinner, minimax } from './gameLogic';
+
+class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      game: [
+        {
+          board: [0, 1, 2, 3, 4, 5, 6, 7, 8],
+        },
+      ],
+      drawCount: 0,
+      turn: 0,
+      human: 'X',
+      ai: 'O',
+      aiWins: false,
+      aiWinCount: 0,
+      playerWins: false,
+      playerWinCount: 0,
+      gameDraw: false,
+      gameOver: false,
+      undo: false,
+    };
+  }
+
+  newGame = () => {
+    const { human } = this.state;
+    this.setState({
+      turn: 0,      
+      aiWins: false,
+      playerWins: false,
+      gameDraw: false,
+      gameOver: false,
+      undo: false,
+    })
+    if (human === 'X') {
+
+      this.setState({
+        human: 'O',
+        ai: 'X',
+        game: [
+          {
+            board: [0, 1, 2, 3, 4, 5, 'X', 7, 8],
+          },
+        ],
+      })
+    } else {
+      this.setState({
+        human: 'X',
+        ai: 'O',
+        game: [
+          {
+            board: [0, 1, 2, 3, 4, 5, 6, 7, 8],
+          },
+        ],
+      })
+    }
+  }
+
+  undoMove = () => {
+    const { game, turn, undo } = this.state;
+    if (game.length > 1) {
+      const history = game.slice(0, turn + 1);
+      const previous = history[history.length - 2];
+      const prevSquares = previous.board.slice();
+      this.setState({
+        game: game.concat([
+          {
+            board: prevSquares,
+          },
+        ]),
+        turn: turn + 1,
+        undo: undo ? false : true
+      });
+    }
+  }
+
+  handleClick = (i) => {
+    const {
+      ai,
+      game,
+      human,
+      turn,
+      playerWinCount,
+      aiWinCount,
+      drawCount
+    } = this.state;
+    const history = game.slice(0, turn + 1);
+    const current = history[history.length - 1];
+    const squares = current.board.slice();
+    squares[i] = human;
+    this.setState({
+      game: game.concat([
+        {
+          board: squares,
+        },
+      ]),
+      turn: turn + 1,
+      undo: false,
+    });
+
+    if (calculateWinner(squares, human)) {
+      return this.setState({
+        gameOver: true,
+        playerWins: true,
+        playerWinCount: playerWinCount + 1
+      });
+    }
+
+    squares[minimax(squares, ai, ai, human).index] = ai;
+
+    if (calculateWinner(squares, ai)) {
+      return this.setState({
+        aiWinCount: aiWinCount + 1,
+        aiWins: true,
+        gameOver: true,
+      });
+    }
+
+    if (!availableSpots(squares).length) {
+      return this.setState({
+        gameOver: true,
+        gameDraw: true,
+        drawCount: drawCount + 1
+      });
+    }
+  };
+
+  render() {
+    const {
+      ai,
+      aiWins,
+      aiWinCount,
+      drawCount,
+      game,
+      gameDraw,
+      gameOver,
+      human,
+      playerWinCount,
+      playerWins,
+      turn,
+      undo,
+    } = this.state;
+    return (
+      <div className="App">
+        <ScoreBoard 
+          aiWinCount={aiWinCount}
+          playerWinCount={playerWinCount}
+          drawCount={drawCount}
+          human={human}
+          ai={ai}
+        />
+        <Board
+          squares={game[turn]}
+          onClick={i => this.handleClick(i)}
+          gameOver={gameOver}
+        />
+        <Button 
+          gameOver={gameOver}
+          newGame={this.newGame}
+          undo={undo}
+          undoMove={this.undoMove}
+        />
+        {aiWins && <h1>AI Wins.</h1>}
+        {playerWins && <h1>Player Wins.</h1>}
+        {gameDraw && <h1>Draw.</h1>}
+      </div>
+    );
+  }
+}
+
+export default App;
