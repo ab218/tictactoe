@@ -2,22 +2,28 @@ import React from 'react';
 import './App.css';
 
 const Square = ({ gameOver, onClick, value }) => {
-  if (value === 'X' || value === 'O') {
+  if (value === 'X') {
     return (
       <button className="square">
-        {value}
+        <p className="blue">{value}</p>
+      </button>
+    );
+  } if (value === 'O') {
+    return (
+      <button className="square">
+        <p className="pink">{value}</p>
       </button>
     );
   } if (gameOver === true) {
     return (
       <button className="square">
-          _
+          <p>_</p>
       </button>
     );
   }
   return (
     <button className="square" onClick={onClick}>
-      _
+      <p>_</p>
     </button>
   );
 };

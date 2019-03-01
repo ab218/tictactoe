@@ -1,15 +1,23 @@
+body {
+  background-color: #021120;
+  color: white;
+  font-family: 'Montserrat', sans-serif;
+}
+
 .App {
   text-align: center;
   margin: 1em;
 }
 
-.count {
-  padding: 0 2vw;
+.piece {
+    padding: 0 2em 0 1em;
 }
 
 .square {
   background: transparent;
-  border: 1px solid black;
+  border: 3px solid #fff;
+  color: #fff;
+  font-family: 'Montserrat', sans-serif;
   font-size: 2em;
   height: 3em;
   margin-right: -1px;
@@ -20,16 +28,41 @@
 .score-board {
   display: flex;
   flex-direction: column;
+  color: #fff;
 }
+
 .score-table {
   font-size: 2em;
-  text-align: left;
+  text-align: center;
   display: flex;
   margin: 1vh auto 4vh;
   flex-direction: column;
+  color: #fff;
 }
 
 .undo {
   font-size: 2em;
   margin: 2vh 0;
+  padding: 15px 50px;
+  text-transform: uppercase;
+  background: #8300ff;
+  border: 2px solid #8300ff;
+  color: #fff;
+  font-weight: 600;
+  font-size: 1em;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all .4s;
+}
+
+.pink {
+  color: pink;
+}
+
+.blue {
+  color: cyan;
+}
+
+.undo:hover {
+  opacity: 0.8;
 }

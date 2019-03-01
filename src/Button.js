@@ -9,8 +9,8 @@ const Button = ({ gameOver, newGame, undo, undoMove }) => {
         : <button className='undo' onClick={() => undoMove()}
           >
         {undo
-        ? 'Redo'
-        : 'Undo'}
+        ? <i className="fas fa-redo"></i>
+        : <i className="fas fa-undo"></i>}
         </button>
         }
       </div>

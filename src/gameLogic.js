@@ -48,18 +48,18 @@ export const minimax = (currentBoard, player, ai, human) => {
 
     const moves = [];
 
-    for (let i = 0; i < emptySpots.length; i++) {
+    emptySpots.forEach(e => {
       const move = {};
-      move.index = currentBoard[emptySpots[i]];
-      currentBoard[emptySpots[i]] = player;
+      move.index = currentBoard[e];
+      currentBoard[e] = player;
       if (player === ai) {
         move.score = minimax(currentBoard, human, ai, human).score;
       } else {
         move.score = minimax(currentBoard, ai, ai, human).score;
       }
-      currentBoard[emptySpots[i]] = move.index;
+      currentBoard[e] = move.index;
       moves.push(move);
-    }
+    })
     
     let bestMove;
     if (player === ai) {

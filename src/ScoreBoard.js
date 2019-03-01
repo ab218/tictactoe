@@ -6,19 +6,19 @@ const ScoreBoard = ({ ai, aiWinCount, drawCount, playerWinCount, human }) => (
         <table className="score-table">
             <tbody>
                 <tr>
-                    <td>Player</td>
-                    <td>({human})</td>
-                    <td className="count">{playerWinCount}</td>
+                    <td><i className="fas fa-user"></i></td>
+                    <td className="piece">{human}</td>
+                    <td>{playerWinCount}</td>
                 </tr>
                 <tr>
-                    <td>Computer</td>
-                    <td>({ai})</td>
-                    <td className="count">{aiWinCount}</td>
+                    <td><i className="fas fa-robot"></i></td>
+                    <td className="piece">{ai}</td>
+                    <td>{aiWinCount}</td>
                 </tr>
                 <tr>
-                    <td>Draw</td>
-                    <td></td>
-                    <td className="count">{drawCount}</td>
+                    <td><i className="fas fa-handshake"></i></td>
+                    <td className="piece"></td>
+                    <td>{drawCount}</td>
                 </tr>
             </tbody>
         </table>
