@@ -1,3 +1,13 @@
-A tic-tac-toe game with an AI.
+# Minimax Tic-Tac-Toe
 
-Bootstrapped with create-react-app.
+A tic-tac-toe game against an *unbeatable AI.
+
+## To start
+
+- Clone this repo.
+
+- ```$ yarn``` or ```$ npm install```
+
+- ```$ yarn start``` from project root.
+
+### Bootstrapped with create-react-app.

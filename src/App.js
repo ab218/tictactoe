@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import './App.css';
-import Board from './Board';
-import Button from './Button';
-import ScoreBoard from './ScoreBoard';
-import { availableSpots, calculateWinner, minimax } from './gameLogic';
+import Board from './components/Board';
+import Button from './components/Button';
+import ScoreBoard from './components/ScoreBoard';
+import { availableSpots, calculateWinner, minimax } from './services/gameLogic';
 
 class App extends Component {
   constructor(props) {
