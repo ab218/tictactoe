@@ -1,16 +1,32 @@
+.App {
+  text-align: center;
+  margin: 1em;
+}
+
+.blue {
+  color: cyan;
+}
+
 body {
   background-color: #021120;
   color: white;
   font-family: 'Montserrat', sans-serif;
 }
 
-.App {
-  text-align: center;
-  margin: 1em;
+.fade {
+  -webkit-animation: fadein 1s; /* Safari, Chrome and Opera > 12.1 */
+  -moz-animation: fadein 1s; /* Firefox < 16 */
+  -ms-animation: fadein 1s; /* Internet Explorer */
+  -o-animation: fadein 1s; /* Opera < 12.1 */
+  animation: fadein 1s;
 }
 
 .piece {
     padding: 0 2em 0 1em;
+}
+
+.pink {
+  color: pink;
 }
 
 .square {
@@ -53,22 +69,6 @@ body {
   border-radius: 50px;
   cursor: pointer;
   transition: all .4s;
-}
-
-.pink {
-  color: pink;
-}
-
-.blue {
-  color: cyan;
-}
-
-.fade {
-  -webkit-animation: fadein 2s; /* Safari, Chrome and Opera > 12.1 */
-  -moz-animation: fadein 2s; /* Firefox < 16 */
-  -ms-animation: fadein 2s; /* Internet Explorer */
-  -o-animation: fadein 2s; /* Opera < 12.1 */
-  animation: fadein 2s;
 }
 
 .undo:hover {

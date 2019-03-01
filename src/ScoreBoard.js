@@ -1,20 +1,26 @@
 import React from 'react';
 import './App.css';
 
-const ScoreBoard = ({ ai, aiWinCount, drawCount, playerWinCount, human }) => (
+const ScoreBoard = ({
+    ai,
+    aiWinCount,
+    drawCount,
+    human,
+    playerWinCount,
+}) => (
     <div className="score-board">
         <table className="score-table">
             <tbody>
                 <tr>
                     <td><i className="fas fa-user"></i></td>
-                    {human === 'X' 
+                    {human === 'X'
                     ? <td className="blue piece">{human}</td>
                     : <td className="pink piece">{human}</td>}
                     <td>{playerWinCount}</td>
                 </tr>
                 <tr>
                     <td><i className="fas fa-robot"></i></td>
-                    {ai === 'X' 
+                    {ai === 'X'
                     ? <td className="blue piece">{ai}</td>
                     : <td className="pink piece">{ai}</td>}
                     <td>{aiWinCount}</td>

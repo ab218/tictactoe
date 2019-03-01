@@ -9,21 +9,21 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      ai: 'O',
+      aiWins: false,
+      aiWinCount: 0,
+      drawCount: 0,
       game: [
         {
           board: [0, 1, 2, 3, 4, 5, 6, 7, 8],
         },
       ],
-      drawCount: 0,
-      turn: 0,
-      human: 'X',
-      ai: 'O',
-      aiWins: false,
-      aiWinCount: 0,
-      playerWins: false,
-      playerWinCount: 0,
       gameDraw: false,
       gameOver: false,
+      human: 'X',
+      playerWinCount: 0,
+      playerWins: false,
+      turn: 0,
       undo: false,
     };
   }
@@ -31,32 +31,32 @@ class App extends Component {
   newGame = () => {
     const { human } = this.state;
     this.setState({
-      turn: 0,
       aiWins: false,
-      playerWins: false,
       gameDraw: false,
       gameOver: false,
+      playerWins: false,
+      turn: 0,
       undo: false,
     });
     if (human === 'X') {
       this.setState({
-        human: 'O',
         ai: 'X',
         game: [
           {
             board: [0, 1, 2, 3, 4, 5, 'X', 7, 8],
           },
         ],
+        human: 'O',
       });
     } else {
       this.setState({
-        human: 'X',
         ai: 'O',
         game: [
           {
             board: [0, 1, 2, 3, 4, 5, 6, 7, 8],
           },
         ],
+        human: 'X',
       });
     }
   }
