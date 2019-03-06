@@ -63,7 +63,7 @@ export const minimax = (currentBoard, player, ai, human) => {
   });
   let bestMove;
   if (player === ai) {
-    let bestScore = -100000;
+    let bestScore = -Infinity;
     for (let i = 0; i < moves.length; i++) {
       if (moves[i].score > bestScore) {
         bestScore = moves[i].score;
@@ -71,7 +71,7 @@ export const minimax = (currentBoard, player, ai, human) => {
       }
     }
   } else {
-    let bestScore = 100000;
+    let bestScore = Infinity;
     for (let i = 0; i < moves.length; i++) {
       if (moves[i].score < bestScore) {
         bestScore = moves[i].score;

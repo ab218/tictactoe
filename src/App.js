@@ -64,16 +64,9 @@ class App extends Component {
   undoMove = () => {
     const { game, turn, undo } = this.state;
     if (game.length > 1) {
-      const history = game.slice(0, turn + 1);
-      const previous = history[history.length - 2];
-      const prevSquares = previous.board.slice();
       this.setState({
-        game: game.concat([
-          {
-            board: prevSquares,
-          },
-        ]),
-        turn: turn + 1,
+        game: game.filter((_, i) => i !== game.length - 1),
+        turn: turn - 1,
         undo: !undo,
       });
     }
@@ -89,7 +82,7 @@ class App extends Component {
       aiWinCount,
       drawCount,
     } = this.state;
-    const history = game.slice(0, turn + 1);
+    const history = game.slice();
     const current = history[history.length - 1];
     const squares = current.board.slice();
     squares[i] = human;
