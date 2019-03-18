@@ -25,6 +25,7 @@ class App extends Component {
       playerWins: false,
       turn: 0,
       undo: false,
+      redo: null,
     };
   }
 
@@ -62,20 +63,28 @@ class App extends Component {
   }
 
   undoMove = () => {
-    const { game, turn, undo } = this.state;
+    const { game, redo, turn, undo } = this.state;
     if (game.length > 1) {
-      const history = game.slice();
-      const previous = history[history.length - 2];
-      const prevSquares = previous.board.slice();
-      this.setState({
-        game: game.concat([
-          {
-            board: prevSquares,
-          },
+      if (redo === null) {
+        const redo = game[game.length - 1].board
+        this.setState({
+          game: game.filter((_, i) => i !== game.length - 1),
+          turn: turn - 1,
+          undo: !undo,
+          redo: redo
+        });
+      } else {
+        this.setState({
+          game: game.concat([
+            {
+              board: redo,
+            },
         ]),
-        turn: turn + 1,
-        undo: !undo,
-      });
+          turn: turn + 1,
+          redo: null,
+          undo: !undo
+        });
+      }
     }
   }
 
@@ -101,6 +110,7 @@ class App extends Component {
       ]),
       turn: turn + 1,
       undo: false,
+      redo: null,
     });
 
     if (calculateWinner(squares, human)) {

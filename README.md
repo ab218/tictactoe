@@ -2,6 +2,8 @@
 
 A tic-tac-toe game against an *unbeatable AI.
 
+![alt tag](https://github.com/ab218/tictactoe/blob/master/tictactoe.gif)
+
 ## To start
 
 - Clone this repo.
